@@ -73,7 +73,23 @@ app.get("/fetch-data", (req, res) => {
 });
 
 
-app.post("/add-data", (req, res) => {
+// app.post("/new-table-data", (req, res) => {
+//     dbObject.collection("menu")
+//     .insertOne(
+//         {
+//             id:Number(req.body.pid),
+//             name:req.body.dish_name,
+//             image:req.body.dish_image,
+//             price:Number(req.body.dish_cost)
+//         }
+//     )
+//     console.log('data inserted: 1 row added')
+//     res.redirect('/displaytable');
+        
+// });
+
+
+app.route('/update-table-data').post((req,res,next)=>{
     dbObject.collection("menu")
     .insertOne(
         {
@@ -81,15 +97,17 @@ app.post("/add-data", (req, res) => {
             name:req.body.dish_name,
             image:req.body.dish_image,
             price:Number(req.body.dish_cost)
-        }
-    )
-    console.log('data inserted: 1 row added')
-    res.redirect('/displaytable');
-        
+        });
+        console.log('data inserted');
+        next();
+}, (_req,res)=>{
+    res.redirect("/new-hotel-menu");
+    res.end();
 });
 
-app.get('/displaytable',(_req,res)=>{
+app.get('/new-hotel-menu',(_req,res)=>{
     res.sendFile("/Users/htq5942/Documents/node-js/hotelMenu/menu.html");
 })
+
 
 app.listen(port, () => console.log(`Listening on port ${port}!`));
