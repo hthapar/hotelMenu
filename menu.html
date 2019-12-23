@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hotel Menu</title>
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <script 
+    src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous"></script>
+</head>
+<body>
+    <section class="main-menu-container">
+        <h1 class="heading">HOTEL- MENU</h1>
+        <table class="table">
+                <tr>
+                    <thead>
+                        <th>Id</th>
+                        <th>Item</th>
+                        <th>Image</th>
+                        <th>Price</th>
+                    </thead>
+                </tr>  
+                <tbody id="emp-table"> 
+                    <tr>
+                        <td id="id"></td>
+                        <td id="Item"></td>
+                        <td id="url"></td>
+                        <td id="Price"></td>
+                    </tr>
+                </tbody>  
+            </table>
+
+            <!-- <button class=" btn update-btn">UPDATE Data</button> -->
+
+            
+
+    <div class="w3-container">
+        <h2>Update Menu Data</h2>
+        <button onclick="document.getElementById('update-btn').style.display='block'" 
+        class="w3-button w3-black">UPDATE</button>
+        
+        <div id="update-btn" class="w3-modal">
+            <div class="w3-modal-content w3-animate-zoom w3-card-4">
+
+                <header class="w3-container w3-black"> 
+                    <span onclick="document.getElementById('update-btn').style.display='none'" 
+                    class="w3-button w3-display-topright">&times;</span>
+                    <h2>Update Data Form</h2>
+                </header>
+
+                <div class="w3-container">
+                    <p>Create FORM</p>
+                    <p>Some text..</p>
+                </div>
+
+                <footer class="w3-container w3-black">
+                    <p>Created using CSS and MongoDb</p>
+                </footer>
+            </div>
+            </div>
+        </div>
+
+        <div class="w3-container">
+                <h2>Add Menu Data</h2>
+                <button onclick="document.getElementById('add-btn').style.display='block'" 
+                class="w3-button w3-black">ADD Data</button>
+                
+                <div id="add-btn" class="w3-modal">
+                    <div class="w3-modal-content w3-animate-zoom w3-card-4">
+        
+                        <header class="w3-container w3-black"> 
+                            <span onclick="document.getElementById('add-btn').style.display='none'" 
+                            class="w3-button w3-display-topright">&times;</span>
+                            <h2>ADD Data</h2>
+                        </header>
+        
+                        <div class="w3-container">
+                            <p>Create FORM</p>
+                            <p>Some text..</p>
+                        </div>
+        
+                        <footer class="w3-container w3-black">
+                            <p>Created using CSS and MongoDb</p>
+                        </footer>
+                    </div>
+                    </div>
+                </div>
+        
+            
+    </section>
+
+       
+
+   
+    <script>
+            $(document).ready(() => {
+                $.ajax({
+                    url: "/menu",
+                    method: "GET",
+                    data: {},
+                    success: data => {
+                        console.log(data);
+                        let rowData = "";
+                        data.forEach(item => {
+                            rowData += 
+                                `<tr>
+                                    <td>${item.id}</td>
+                                    <td>${item.name}</td>
+                                    <td><img class = "dish-img" src="${item.image}"></td>
+                                    <td>${item.price}</td>
+                                </tr>`;
+                        });
+                        console.log(rowData);
+                        $("#emp-table").html(rowData);
+                    }
+                });
+            });
+    </script>
+</body>
+</html>
