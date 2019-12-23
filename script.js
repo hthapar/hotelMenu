@@ -29,9 +29,11 @@ app.get("/", (_req, res) => {
 });
 
 //validator function
-app.post('/hotel-menu',(req,res) =>{
-    dbObject.collection("users").find().toArray((err, result)=>{
-        if (err) throw err;
+    app.post('/valid-user-hotel-menu',(req,res) =>{
+        dbObject.collection("users")
+        .find()
+        .toArray((err, result)=>{
+            if (err) throw err;
 
         var uName = result[0].user;
         var uPass = result[0].password;
@@ -57,5 +59,37 @@ app.get("/menu", (_req, res) => {
             res.send(result);
         });
 });
+
+app.get("/fetch-data", (req, res) => {
+    dbObject.collection("menu")
+        .find({id:"req.body.fetch_btn"})
+        .toArray((err, result) => {
+            if (err) throw err;
+            console.log('getting data from id & printing on UI');
+            // console.log(req.body.fetch_btn)
+            console.log(result);
+            res.send(result);
+        });
+});
+
+
+app.post("/add-data", (req, res) => {
+    dbObject.collection("menu")
+    .insertOne(
+        {
+            id:Number(req.body.pid),
+            name:req.body.dish_name,
+            image:req.body.dish_image,
+            price:Number(req.body.dish_cost)
+        }
+    )
+    console.log('data inserted: 1 row added')
+    res.redirect('/displaytable');
+        
+});
+
+app.get('/displaytable',(_req,res)=>{
+    res.sendFile("/Users/htq5942/Documents/node-js/hotelMenu/menu.html");
+})
 
 app.listen(port, () => console.log(`Listening on port ${port}!`));
