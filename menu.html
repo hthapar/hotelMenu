@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
     <title>Hotel Menu</title>
+
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
@@ -52,27 +54,17 @@
                     <div class="w3-container">
                         <p>FORM-DATA</p>
                        
-                        <form action="/fetch-data" method="GET"> 
                             <label for="get-id-data">Id</label>
-                            <input type="text" placeholder="Enter PID" id="get-pid-data">
+                                <input type="text" placeholder="Enter PID" id="get-pid-data">
 
-                            <button type="submit" id="fetch-btn" name="fetch_btn" 
-                                onclick= "var pid = document.getElementById('get-pid-data').value; console.log(pid)">
+                            <button type="submit" id="fetch_pid" name="fetch_pid" 
+                                onclick= "fetchID();">
                             Fetch Data
                             </button>
                             <br><br>
 
-                            <label for="">Dish Name:</label>
-                            <input type="text" id="dish-name">
-                            <br><br>
-                            <label for="">Dish Image Url:</label>
-                            <input type="text" id="dish-image"> <br>
-                            <br>
-                            <label for="">Dish Cost:</label>
-                            <input type="text" id="dish-cost">
-                            <br><br>
-
-                            <button>Update</button>
+                         <form action="/update-data" method="POST" id="update-data-form"> 
+                            
                         </form>
                     </div>
 
@@ -86,8 +78,10 @@
         <div class="w3-container">
             <h2>Add Menu Data</h2>
             
-            <button onclick="document.getElementById('add-btn').style.display='block'" class="w3-button w3-black">ADD
-                Data</button>
+            <button onclick="document.getElementById('add-btn').style.display='block'" 
+            class="w3-button w3-black">
+                ADD Data
+            </button>
 
             <div id="add-btn" class="w3-modal">
                 <div class="w3-modal-content w3-animate-zoom w3-card-4">
@@ -100,7 +94,7 @@
                     <div class="w3-container">
                             <p>FORM-DATA</p>
                            
-                            <form action="/update-table-data" method="POST"> 
+                            <form action="/new-table-data" method="POST"> 
                                 <label for="get-id-data">Id</label>
                                 <input type="text" placeholder="Enter PID" id="pid-data" name="pid">
                                 <br><br>
@@ -125,12 +119,8 @@
             </div>
         </div>
 
-
     </section>
 
-
-    
-   
     <script>
             $(document).ready(() => {
                 $.ajax({
@@ -155,6 +145,43 @@
                 });
             });
 
+            function fetchID(){
+                var pid = document.getElementById('get-pid-data').value;
+
+                $(document).ready(() => {
+                $.ajax({
+                    url: "/fetch-data/"+pid,
+                    method: "GET",
+                    data: {},
+                    success: data => {
+                        console.log(data);
+                        let rowData = "";
+                        data.forEach(item => {
+                            rowData += 
+                                    `
+                                    <label for="">Dish Name:</label>
+                                        <input type="text" id="dish-name" value="${item.name}">
+                                    <br><br>
+                                    <label for="">Dish Image Url:</label>
+                                        <input type="text" id="dish-image" value="${item.image}"> <br>
+                                    <br>
+                                    <label for="">Dish Cost:</label>
+                                        <input type="text" id="dish-cost" value="${item.price}">
+                                    <br><br>
+
+                                    <button onclick=update(${item.id})>Update</button>`;
+                        });
+                        console.log(rowData);
+                        $("#update-data-form").html(rowData);
+                    }
+                });
+            });
+
+            function update(id) {
+                console.log(id);
+            }
+               
+            }
            
     </script>
 </body>

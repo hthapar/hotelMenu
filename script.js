@@ -3,6 +3,7 @@ const path = require("path");
 const app = express();
 const bodyParser = require("body-parser");
 const MongoClient = require("mongodb").MongoClient;
+const ObjectID = require("mongodb").ObjectID;
 const url = "mongodb://127.0.0.1:27017/";
 const port = 4000;
 
@@ -60,15 +61,19 @@ app.get("/menu", (_req, res) => {
         });
 });
 
-app.get("/fetch-data", (req, res) => {
+app.get("/fetch-data/:pid", (req, res) => {
+    
+    console.log(req.params.pid);
+    
     dbObject.collection("menu")
-        .find({id:"req.body.fetch_btn"})
+        .find({"id":Number(req.params.pid)  })
         .toArray((err, result) => {
             if (err) throw err;
             console.log('getting data from id & printing on UI');
-            // console.log(req.body.fetch_btn)
+            // console.log(req.body.fetch-btn)
             console.log(result);
             res.send(result);
+
         });
 });
 
@@ -88,8 +93,7 @@ app.get("/fetch-data", (req, res) => {
         
 // });
 
-
-app.route('/update-table-data').post((req,res,next)=>{
+app.route('/new-table-data').post((req,res,next)=>{
     dbObject.collection("menu")
     .insertOne(
         {
@@ -104,10 +108,8 @@ app.route('/update-table-data').post((req,res,next)=>{
     res.redirect("/new-hotel-menu");
     res.end();
 });
-
 app.get('/new-hotel-menu',(_req,res)=>{
     res.sendFile("/Users/htq5942/Documents/node-js/hotelMenu/menu.html");
 })
-
 
 app.listen(port, () => console.log(`Listening on port ${port}!`));
