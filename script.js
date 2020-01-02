@@ -53,6 +53,7 @@ app.get("/", (_req, res) => {
 app.get("/menu", (_req, res) => {
     dbObject.collection("menu")
         .find()
+        .sort({"id":1})
         .toArray((err, result) => {
             if (err) throw err;
             // console.log('result printed on UI')
