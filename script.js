@@ -39,7 +39,7 @@ app.get("/", (_req, res) => {
         var uName = result[0].user;
         var uPass = result[0].password;
         if(req.body.uname === uName && req.body.pass === uPass){
-            console.log('User Validated');
+            // console.log('User Validated');
             res.sendFile("/Users/htq5942/Documents/node-js/hotelMenu/menu.html");
         }
         else{
@@ -55,7 +55,7 @@ app.get("/menu", (_req, res) => {
         .find()
         .toArray((err, result) => {
             if (err) throw err;
-            console.log('result printed on UI')
+            // console.log('result printed on UI')
             // console.log(result)
             res.send(result);
         });
@@ -63,17 +63,12 @@ app.get("/menu", (_req, res) => {
 
 app.get("/fetch-data/:pid", (req, res) => {
     
-    console.log(req.params.pid);
-    
     dbObject.collection("menu")
-        .find({"id":Number(req.params.pid)  })
+        .find({"id":Number(req.params.pid)})
         .toArray((err, result) => {
             if (err) throw err;
-            console.log('getting data from id & printing on UI');
-            // console.log(req.body.fetch-btn)
-            console.log(result);
+            // console.log('getting data from id & printing on UI');
             res.send(result);
-
         });
 });
 
@@ -108,8 +103,41 @@ app.route('/new-table-data').post((req,res,next)=>{
     res.redirect("/new-hotel-menu");
     res.end();
 });
+
 app.get('/new-hotel-menu',(_req,res)=>{
     res.sendFile("/Users/htq5942/Documents/node-js/hotelMenu/menu.html");
+})
+
+app.post('/update-table',(req,res)=>{
+    console.log("Your Id is " + req.body.dish_id);
+    if(req.body.update_btn){
+        dbObject.collection("menu")
+        .updateOne(
+        {id:Number(req.body.dish_id)},
+
+        {
+            $set :
+                {
+                    "id":Number(req.body.dish_id),
+                    "name":req.body.dish_name,
+                    "image":req.body.dish_image,
+                    "price":Number(req.body.dish_cost)
+                }
+        });
+        console.log('one row Updated');
+        res.redirect('/new-hotel-menu');
+    }
+    else if(req.body.delete_btn){
+        dbObject.collection("menu")
+        .deleteOne({
+            "id":Number(req.body.dish_id)
+        });
+        console.log('One row deleted');
+        res.redirect('/new-hotel-menu');
+    }
+    else{
+        console.log('Click Valid Button');
+    }
 })
 
 app.listen(port, () => console.log(`Listening on port ${port}!`));

@@ -54,17 +54,16 @@
                     <div class="w3-container">
                         <p>FORM-DATA</p>
                        
+                         <form action="/update-table" method="POST" id="update-data-form"> 
                             <label for="get-id-data">Id</label>
-                                <input type="text" placeholder="Enter PID" id="get-pid-data">
+                            <input type="text" placeholder="Enter PID" name= "pid" id="get-pid-data">
 
-                            <button type="submit" id="fetch_pid" name="fetch_pid" 
-                                onclick= "fetchID();">
-                            Fetch Data
-                            </button>
-                            <br><br>
-
-                         <form action="/update-data" method="POST" id="update-data-form"> 
-                            
+                            <input type="button" id="fetch_pid" name="fetch_pid" value="Fetch Data"
+                            onclick= "fetchID();">
+                        <!-- Fetch Data -->
+                        <!-- </button> -->
+                        
+                            <!-- dynamic creation of form -->
                         </form>
                     </div>
 
@@ -119,6 +118,7 @@
             </div>
         </div>
 
+
     </section>
 
     <script>
@@ -139,7 +139,7 @@
                                     <td>${item.price}</td>
                                 </tr>`;
                         });
-                        console.log(rowData);
+                        // console.log(rowData);
                         $("#emp-table").html(rowData);
                     }
                 });
@@ -158,30 +158,45 @@
                         let rowData = "";
                         data.forEach(item => {
                             rowData += 
-                                    `
+                                    `<label for="">Dish Id:</label>
+                                        <input id="dish_id" name="dish_id" value="${item.id}"></label>
+                                    <br><br>
                                     <label for="">Dish Name:</label>
-                                        <input type="text" id="dish-name" value="${item.name}">
+                                        <input type="text" id="dish-name" name="dish_name" value="${item.name}">
                                     <br><br>
                                     <label for="">Dish Image Url:</label>
-                                        <input type="text" id="dish-image" value="${item.image}"> <br>
+                                        <input type="text" id="dish-image" name="dish_image" value="${item.image}"> <br>
                                     <br>
                                     <label for="">Dish Cost:</label>
-                                        <input type="text" id="dish-cost" value="${item.price}">
+                                        <input type="text" id="dish-cost" name = "dish_cost" value="${item.price}">
                                     <br><br>
 
-                                    <button onclick=update(${item.id})>Update</button>`;
+                                    <input 
+                                    type="submit"
+                                    name = "update_btn"
+                                    id = "update-btn"
+                                    value="Update Data">
+                                    
+                                    <input 
+                                    type="submit" 
+                                    name = "delete_btn"
+                                    id = "delete-btn"
+                                    value="Delete Data">`;
                         });
-                        console.log(rowData);
                         $("#update-data-form").html(rowData);
                     }
                 });
             });
+        }
 
-            function update(id) {
-                console.log(id);
-            }
-               
-            }
+        // function update(id) {
+        //     console.log('inside update func');
+        //     window.location="http://localhost:4000/update-table/"+id;
+        // }
+
+        function deleteID(id) {
+            console.log('inside delete func'+id);
+        }
            
     </script>
 </body>
