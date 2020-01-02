@@ -159,7 +159,8 @@
                         data.forEach(item => {
                             rowData += 
                                     `<label for="">Dish Id:</label>
-                                        <input id="dish_id" name="dish_id" value="${item.id}"></label>
+                                        <label id="dish" name="dish">${item.id}</label>
+                                        <input type= "hidden" id="dish_id" name="dish_id" value="${item.id}">
                                     <br><br>
                                     <label for="">Dish Name:</label>
                                         <input type="text" id="dish-name" name="dish_name" value="${item.name}">

@@ -136,7 +136,7 @@ app.post('/update-table',(req,res)=>{
         res.redirect('/new-hotel-menu');
     }
     else{
-        console.log('Click Valid Button');
+      alert('Click Valid Button');
     }
 })
 
